@@ -1,5 +1,5 @@
 {
-  "name": "draftjs-to-html",
+  "name": "@byondrnd/draftjs-to-html",
   "version": "0.9.1",
   "description": "A library for draftjs to html conversion.",
   "main": "lib/draftjs-to-html.js",
@@ -41,7 +41,8 @@
     "dev": "rollup -c -w",
     "test": "mocha --require config/test-compiler.js config/test-setup.js js/**/*Test.js",
     "lint": "eslint js",
-    "check": "npm run lint"
+    "check": "npm run lint",
+    "bump-version": "npm version patch -m \"Upgrade to %s\""
   },
   "author": "Jyoti Puri",
   "license": "MIT",
