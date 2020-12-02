@@ -153,6 +153,8 @@ function getStyleArrayForBlock(block) {
     BGCOLOR: new Array(text.length),
     FONTSIZE: new Array(text.length),
     FONTFAMILY: new Array(text.length),
+    LINEHEIGHT: new Array(text.length),
+    LETTERSPACING: new Array(text.length),
     length: text.length,
   };
   if (inlineStyleRanges && inlineStyleRanges.length > 0) {
@@ -168,6 +170,10 @@ function getStyleArrayForBlock(block) {
           inlineStyles.FONTSIZE[i] = range.style.substring(9);
         } else if (range.style.indexOf('fontfamily-') === 0) {
           inlineStyles.FONTFAMILY[i] = range.style.substring(11);
+        } else if (range.style.indexOf('lineheight-') === 0) {
+          inlineStyles.LINEHEIGHT[i] = range.style.substring(11);
+        } else if (range.style.indexOf('letterspacing-') === 0) {
+          inlineStyles.LETTERSPACING[i] = range.style.substring(14);
         } else if (inlineStyles[range.style]) {
           inlineStyles[range.style][i] = true;
         }
@@ -214,6 +220,12 @@ export function getStylesAtOffset(inlineStyles, offset) {
   }
   if (inlineStyles.SUPERSCRIPT[offset]) {
     styles.SUPERSCRIPT = true;
+  }
+  if (inlineStyles.LINEHEIGHT[offset]) {
+    styles.LINEHEIGHT = inlineStyles.LINEHEIGHT[offset];
+  }
+  if (inlineStyles.LETTERSPACING[offset]) {
+    styles.LETTERSPACING = inlineStyles.LETTERSPACING[offset];
   }
   return styles;
 }
@@ -288,7 +300,7 @@ function getSectionText(text) {
 * Function returns html for text depending on inline style tags applicable to it.
 */
 export function addStylePropertyMarkup(styles, text) {
-  if (styles && (styles.COLOR || styles.BGCOLOR || styles.FONTSIZE || styles.FONTFAMILY)) {
+  if (styles && (styles.COLOR || styles.BGCOLOR || styles.FONTSIZE || styles.FONTFAMILY || styles.LINEHEIGHT || styles.LETTERSPACING)) {
     let styleString = 'style="';
     if (styles.COLOR) {
       styleString += `color: ${styles.COLOR};`;
@@ -301,6 +313,12 @@ export function addStylePropertyMarkup(styles, text) {
     }
     if (styles.FONTFAMILY) {
       styleString += `font-family: ${styles.FONTFAMILY};`;
+    }
+    if (styles.LINEHEIGHT) {
+      styleString += 'line-height: '.concat(styles.LINEHEIGHT);
+    }
+    if (styles.LETTERSPACING) {
+      styleString += "letter-spacing: ".concat(styles.LETTERSPACING).concat(/^\d+$/.test(styles.LETTERSPACING) ? 'px' : '', ";");
     }
     styleString += '"';
     return `<span ${styleString}>${text}</span>`;
@@ -455,7 +473,7 @@ function getSectionMarkup(
   const entityInlineMarkup = [];
   const inlineStyleSections = getInlineStyleSections(
     block,
-    ['COLOR', 'BGCOLOR', 'FONTSIZE', 'FONTFAMILY'],
+    ['COLOR', 'BGCOLOR', 'FONTSIZE', 'FONTFAMILY', 'LINEHEIGHT', 'LETTERSPACING'],
     section.start,
     section.end,
   );
