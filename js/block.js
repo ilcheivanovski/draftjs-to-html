@@ -334,7 +334,7 @@ export function addStylePropertyMarkup(styles, text) {
     if (styles.LETTERSPACING) {
       styleString += "letter-spacing: "
         .concat(styles.LETTERSPACING)
-        .concat(styles.LETTERSPACING, "px;");
+        .concat(/^\d+$/.test(styles.LETTERSPACING) ? "px" : "", ";");
     }
     styleString += '"';
     return `<span ${styleString}>${text}</span>`;
