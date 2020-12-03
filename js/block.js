@@ -332,9 +332,7 @@ export function addStylePropertyMarkup(styles, text) {
       styleString += "line-height: ".concat(styles.LINEHEIGHT, ";");
     }
     if (styles.LETTERSPACING) {
-      styleString += "letter-spacing: "
-        .concat(styles.LETTERSPACING)
-        .concat(/^\d+$/.test(styles.LETTERSPACING) ? "px" : "", ";");
+      styleString += "letter-spacing: ".concat(styles.LETTERSPACING, "px;");
     }
     styleString += '"';
     return `<span ${styleString}>${text}</span>`;
