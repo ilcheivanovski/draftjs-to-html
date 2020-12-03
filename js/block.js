@@ -329,12 +329,12 @@ export function addStylePropertyMarkup(styles, text) {
       styleString += `font-family: ${styles.FONTFAMILY};`;
     }
     if (styles.LINEHEIGHT) {
-      styleString += "line-height: ".concat(styles.LINEHEIGHT);
+      styleString += "line-height: ".concat(styles.LINEHEIGHT, ";");
     }
     if (styles.LETTERSPACING) {
       styleString += "letter-spacing: "
         .concat(styles.LETTERSPACING)
-        .concat(/^\d+$/.test(styles.LETTERSPACING) ? "px" : "", ";");
+        .concat(styles.LETTERSPACING, "px;");
     }
     styleString += '"';
     return `<span ${styleString}>${text}</span>`;
