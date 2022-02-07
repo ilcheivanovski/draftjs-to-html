@@ -52,6 +52,13 @@ export function getListMarkup(
     if (!nestedBlock) {
       listHtml.push('<li');
       const blockStyle = getBlockStyle(block.data);
+      const inlineStylesClasses = block.inlineStyleRanges
+          .map((i) => i.style)
+          .join(" ");
+
+      if (inlineStylesClasses) {
+        listHtml.push(' class="'.concat(inlineStylesClasses, '"'));
+      }
       if (blockStyle) {
         listHtml.push(` style="${blockStyle}"`);
       }
